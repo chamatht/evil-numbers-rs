@@ -11,7 +11,7 @@ opt-level = 3
 
 [dependencies]
 libc = "0.2"
-
+num_cpus = "1.13"
 
 [build-dependencies]
 cc = { version = "1.0", features = ["parallel"] }
