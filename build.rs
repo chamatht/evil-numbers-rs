@@ -34,5 +34,4 @@ fn main() {
         .files(src_files)
         .include("libprimesieve/include")
         .compile("primesieve");
-
 }
