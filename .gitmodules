@@ -1,0 +1,3 @@
+[submodule "libprimesieve"]
+	path = libprimesieve
+	url = https://github.com/kimwalisch/primesieve
