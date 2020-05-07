@@ -28,6 +28,7 @@ fn main() {
     cc::Build::new()
         .cpp(true)
         .flag("-march=native")
+        .flag("-flto")
         .opt_level(3)
         .warnings(false)
         .files(src_files)
