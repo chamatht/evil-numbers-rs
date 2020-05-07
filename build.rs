@@ -22,7 +22,7 @@ fn main() {
         "libprimesieve/src/PrimeSieve.cpp",
         "libprimesieve/src/Erat.cpp",
         "libprimesieve/src/SievingPrimes.cpp",
-        "primesieve-wa.c"
+        "primesieve-wa.c",
     ];
 
     cc::Build::new()
@@ -33,12 +33,12 @@ fn main() {
         .include("libprimesieve/include")
         .compile("primesieve");
 
-   /*  cc::Build::new()
-        .cpp(true)
-        .flag("-march=native")
-        .file("primesieve-wa.c")
-        .include("libprimesieve/include")
-        .compile("primesieve-wa") */
+    /*  cc::Build::new()
+    .cpp(true)
+    .flag("-march=native")
+    .file("primesieve-wa.c")
+    .include("libprimesieve/include")
+    .compile("primesieve-wa") */
 
     /* println!("cargo:rerun-if-changed=wrapper.h");
     let bindings = bindgen::Builder::default()
