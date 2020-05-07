@@ -22,7 +22,7 @@ fn main() {
         "libprimesieve/src/PrimeSieve.cpp",
         "libprimesieve/src/Erat.cpp",
         "libprimesieve/src/SievingPrimes.cpp",
-        //"primesieve-wa.c"
+        "primesieve-wa.c"
     ];
 
     cc::Build::new()
