@@ -17,7 +17,7 @@ pub struct primesieve_iterator {
 }
 
 extern "C" {
-    pub fn primesieve_nth_prime(n: i64, start: u64) -> u64;
+    //pub fn primesieve_nth_prime(n: i64, start: u64) -> u64;
     pub fn primesieve_next_prime_wa(it: *mut primesieve_iterator) -> u64;
     pub fn primesieve_init(it: *mut primesieve_iterator);
     pub fn primesieve_free_iterator(it: *mut primesieve_iterator);
@@ -30,11 +30,19 @@ impl primesieve_iterator {
 
         itr
     }
+}
 
-    pub fn next_prime(&mut self) -> u64 {
+impl Iterator for primesieve_iterator {
+    type Item = u64;
+
+    fn next(&mut self) -> Option<Self::Item> {
         let p: u64 = unsafe { primesieve_next_prime_wa(self) };
-
-        p
+        
+        if p == u64::MAX {
+            None
+        } else {
+            Some(p)
+        }
     }
 }
 
