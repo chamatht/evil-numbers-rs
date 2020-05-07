@@ -28,7 +28,8 @@ fn main() {
     cc::Build::new()
         .cpp(true)
         .flag("-march=native")
-        .flag("-w")
+        .opt_level(3)
+        .warnings(false)
         .files(src_files)
         .include("libprimesieve/include")
         .compile("primesieve");
