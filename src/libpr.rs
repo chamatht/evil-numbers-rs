@@ -4,23 +4,23 @@ use std::mem;
 #[no_mangle]
 #[repr(C)]
 pub struct primesieve_iterator {
-    pub i_: size_t,
-    pub last_idx_: size_t,
-    pub start_: u64,
-    pub stop: u64,
-    pub stop_hint: u64,
-    pub dist: u64,
-    pub primes: *mut u64,
-    pub vector: *mut c_void,
-    pub primeGenerator: *mut c_void,
-    pub is_error_: c_int,
+    i_: size_t,
+    last_idx_: size_t,
+    start_: u64,
+    stop: u64,
+    stop_hint: u64,
+    dist: u64,
+    primes: *mut u64,
+    vector: *mut c_void,
+    primeGenerator: *mut c_void,
+    is_error_: c_int,
 }
 
 extern "C" {
     //pub fn primesieve_nth_prime(n: i64, start: u64) -> u64;
-    pub fn primesieve_next_prime_wa(it: *mut primesieve_iterator) -> u64;
-    pub fn primesieve_init(it: *mut primesieve_iterator);
-    pub fn primesieve_free_iterator(it: *mut primesieve_iterator);
+    fn primesieve_next_prime_wa(it: *mut primesieve_iterator) -> u64;
+    fn primesieve_init(it: *mut primesieve_iterator);
+    fn primesieve_free_iterator(it: *mut primesieve_iterator);
 }
 
 impl primesieve_iterator {
