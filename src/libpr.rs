@@ -1,5 +1,7 @@
+#[allow(dead_code)]
 use libc::{c_int, c_void, size_t};
 use std::mem;
+
 #[allow(non_snake_case)]
 #[no_mangle]
 #[repr(C)]
@@ -27,7 +29,7 @@ extern "C" {
 
 impl primesieve_iterator {
     pub fn new(start: u64) -> primesieve_iterator {
-        Self::new_with_stop(start, unsafe{primesieve_get_max_stop()})
+        Self::new_with_stop(start, unsafe { primesieve_get_max_stop() })
     }
 
     pub fn new_with_stop(start: u64, stop_hint: u64) -> primesieve_iterator {
@@ -44,7 +46,7 @@ impl Iterator for primesieve_iterator {
 
     fn next(&mut self) -> Option<Self::Item> {
         let p: u64 = unsafe { primesieve_next_prime_wa(self) };
-        
+
         if p >= self.stop_hint {
             None
         } else {
