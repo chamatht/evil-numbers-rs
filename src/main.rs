@@ -1,11 +1,11 @@
 mod libpr;
 
 use crate::libpr::*;
-use num_cpus;
 use std::env;
 use std::sync::mpsc;
 use std::sync::mpsc::Sender;
 use std::thread;
+use std::time::Instant;
 
 fn main() {
     let (stop, start) = get_args();
@@ -17,6 +17,7 @@ fn main() {
 
     let (tx, rx) = mpsc::channel();
 
+    let itime = Instant::now();
     for i in 0..cpus {
         let start = i * step;
         let stop = std::cmp::min(start + step, stop);
@@ -33,12 +34,29 @@ fn main() {
 
     for (i, evec) in rx {
         //println!("item recieved {} with length {} : {:?}", i, evec.len(), evec.get(0));
-        mainvec.insert(i, evec);
+        if !evec.is_empty() {
+            mainvec.insert(i, evec);
+        }
+    }
+    let ftime = itime.elapsed();
+
+    let mut evilvec: Vec<&u64> = mainvec
+        .iter()
+        .filter(|v| !v.is_empty())
+        .flat_map(|v| v.iter())
+        .collect();
+    while let None = evilvec.last() {
+        evilvec.pop();
     }
 
-    let evilvec: Vec<&u64> = mainvec.iter().flat_map(|v| v.iter()).collect();
-
+    println!("{} evil numbers found.", evilvec.len());
     println!("Largets evil number: {}", evilvec.last().unwrap());
+    let (eh, pos) = find_largest_evil_at_heart(&evilvec);
+    println!(
+        "Largets evil at heart number: {} (its position is {})",
+        eh, pos
+    );
+    println!("*** Took {:.3} seconds ***", ftime.as_secs_f64());
 }
 
 fn run_evil_generator(identifier: usize, tx: Sender<(usize, Vec<u64>)>, start: u64, stop: u64) {
@@ -55,23 +73,51 @@ fn run_evil_generator(identifier: usize, tx: Sender<(usize, Vec<u64>)>, start: u
     tx.send((identifier, v)).unwrap();
 }
 
+fn find_largest_evil_at_heart(evilvec: &[&u64]) -> (u64, usize) {
+    // (ehnumber, ehposition)
+    let mut ehnum: u64 = 0;
+    let mut ehpos: usize = 0;
+
+    let mut i: usize = 1;
+    while *evilvec[i - 1] as usize <= evilvec.len() {
+        ehpos = *evilvec[i - 1] as usize;
+        ehnum = *evilvec[ehpos];
+        i = i + 1;
+    }
+
+    (ehnum, ehpos)
+}
+
 fn get_args() -> (u64, u64) {
     let args: Vec<String> = env::args().collect();
-    if args.len() == 3 {
-        let t = (
-            args[1].parse::<u64>().unwrap(),
-            args[2].parse::<u64>().unwrap(),
-        );
-        if t.0 <= t.1 {
-            panic!("Stop value must be bigger than start.")
+    let t = {
+        if args.len() == 3 {
+            (
+                args[1].parse::<u64>().unwrap(),
+                args[2].parse::<u64>().unwrap(),
+            )
+        } else if args.len() == 2 {
+            (args[1].parse::<u64>().unwrap(), 0)
+        } else {
+            eprintln!(
+                "USAGE: {} STOP_VALUE [START_VALUE]
+            Note: [START_VALUE, STOP_VALUE) ",
+                args[0]
+            );
+            std::process::exit(2);
         }
+    };
 
-        t
-    } else if args.len() == 2 {
-        (args[1].parse::<u64>().unwrap(), 0)
-    } else {
-        panic!("USAGE: {} [STOP_VALUE]", args[0])
+    if t.0 <= 7 {
+        eprintln!("Start value must be bigger than 7.");
+        std::process::exit(1);
     }
+    if t.0 <= t.1 {
+        eprintln!("Stop value must be bigger than start.");
+        std::process::exit(1);
+    }
+
+    t
 }
 
 #[cfg(test)]
