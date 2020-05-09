@@ -1,4 +1,4 @@
-#[allow(dead_code)]
+#![allow(dead_code)]
 use libc::{c_int, c_void, size_t};
 use std::mem;
 
@@ -6,16 +6,16 @@ use std::mem;
 #[no_mangle]
 #[repr(C)]
 pub struct primesieve_iterator {
-    i_: size_t,
-    last_idx_: size_t,
-    start_: u64,
+    i: size_t,
+    last_idx: size_t,
+    start: u64,
     stop: u64,
     stop_hint: u64,
     dist: u64,
     primes: *mut u64,
     vector: *mut c_void,
     primeGenerator: *mut c_void,
-    is_error_: c_int,
+    is_error: c_int,
 }
 
 extern "C" {
