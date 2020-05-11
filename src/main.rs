@@ -74,7 +74,6 @@ fn run_evil_generator(identifier: usize, tx: Sender<(usize, Vec<u64>)>, start: u
 }
 
 fn find_largest_evil_at_heart(evilvec: &[&u64]) -> (u64, usize) {
-    // (ehnumber, ehposition)
     let mut ehnum: u64 = 0;
     let mut ehpos: usize = 0;
 
