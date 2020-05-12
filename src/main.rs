@@ -33,7 +33,6 @@ fn main() {
     drop(tx);
 
     for (i, evec) in rx {
-        //println!("item recieved {} with length {} : {:?}", i, evec.len(), evec.get(0));
         if !evec.is_empty() {
             mainvec.insert(i, evec);
         }
