@@ -62,9 +62,14 @@ fn run_evil_generator(identifier: usize, tx: Sender<(usize, Vec<u64>)>, start: u
     let itr = primesieve_iterator::new_with_stop(start, stop);
     let mut v: Vec<u64> = Vec::new();
     for p in itr {
-        let digit_sum: u32 = p.to_string().chars().map(|d| d.to_digit(10).unwrap()).sum();
-
-        if digit_sum % 7 == 0 {
+        let mut i = p;
+        let mut sum = 0;
+        while i > 0 {
+            sum += i % 10;
+            i = i / 10;
+        }
+        
+        if sum % 7 == 0 {
             v.push(p);
         }
     }
