@@ -81,9 +81,9 @@ fn find_largest_evil_at_heart(evilvec: &[&u64]) -> (u64, usize) {
     let mut ehnum: u64 = 0;
     let mut ehpos: usize = 0;
 
-    let mut i: usize = 1;
-    while *evilvec[i - 1] as usize <= evilvec.len() {
-        ehpos = *evilvec[i - 1] as usize;
+    let mut i: usize = 0;
+    while (*evilvec[i] as usize) < evilvec.len() {
+        ehpos = *evilvec[i] as usize;
         ehnum = *evilvec[ehpos];
         i = i + 1;
     }
